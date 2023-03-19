@@ -18,8 +18,8 @@ pipeline {
             steps {
                 sh '''
                 echo "stopping container"
-                docker stop nodejs-app
-                docker rm nodejs-app
+                docker ps -q --filter "name=nodejs-app" | xargs -r docker stop
+                docker ps -aq --filter "name=nodejs-app" | xargs -r docker rm
                 '''
             }
         }
