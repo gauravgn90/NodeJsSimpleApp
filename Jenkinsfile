@@ -17,7 +17,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t nodejs-simple-app:${BUILD_NUMBER} -f Dockerfile .'
+                sh 'docker build -t gauravgn90/nodejs-simple-app:${BUILD_NUMBER} -f Dockerfile .'
             }
         }
         stage('Tag') {
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh '''
                 echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io
-                docker push nodejs-simple-app:${BUILD_NUMBER}
+                docker push gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
                 '''
             }
         }
