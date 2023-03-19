@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Tag') {
             steps {
-                sh 'docker tag nodejs-simple-app:${BUILD_NUMBER} gauravgn90/nodejs-simple-app:${BUILD_NUMBER}'
+                sh 'docker tag gauravgn90/nodejs-simple-app:${BUILD_NUMBER} gauravgn90/nodejs-simple-app:${BUILD_NUMBER}'
             }
         }
 
