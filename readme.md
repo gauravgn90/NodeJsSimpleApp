@@ -29,3 +29,10 @@ USER jenkins
 
 ################################
 docker run -p 8080:8080 -p 50000:50000 --name jenkins-server -v jenkins_home_at_host:/var/jenkins_home jenkins/jenkins:lts
+
+############
+sudo chmod 666 /var/run/docker.sock
+
+###
+
+https://narenchejara.medium.com/build-and-publish-docker-images-using-jenkins-pipeline-3b14e92fa2b4
