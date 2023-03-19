@@ -9,21 +9,26 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                sh 'docker --version'
-            }
-        }
-
-        stage('Login') {
+         stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
+        stage('Build') {
+            steps {
+                sh 'docker build -t nodejs-simple-app:${BUILD_NUMBER} -f Dockerfile .'
+            }
+        }
+        stage('Tag') {
+            steps {
+                sh 'docker tag nodejs-simple-app:${BUILD_NUMBER} gauravgn90/nodejs-simple-app:${BUILD_NUMBER}'
+            }
+        }
+
         stage('Push') {
             steps {
-                sh 'docker --version'
+                sh 'docker push nodejs-simple-app:${BUILD_NUMBER}'
             }
         }
     }
