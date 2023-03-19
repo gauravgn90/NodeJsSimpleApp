@@ -28,7 +28,10 @@ pipeline {
 
         stage('Push') {
             steps {
-                sh 'docker push nodejs-simple-app:${BUILD_NUMBER}'
+                sh '''
+                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                docker push nodejs-simple-app:${BUILD_NUMBER}
+                '''
             }
         }
     }
