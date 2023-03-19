@@ -1,44 +1,45 @@
 pipeline {
-    agent any
+    agent {label 'linux'}
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+    }
 
     environment {
-        DOCKER_REGISTRY = "https://index.docker.io/v2/"
-        DOCKER_IMAGE = "https://index.docker.io/v2/nodejssimpleapp:latest"
-        DOCKER_PORT = "3000"
-        EXPOSED_PORT = "3000"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
     stages {
-        stage('Fetch Code from GitHub') {
+        stage('Build') {
             steps {
-                git branch: 'master', url: 'https://github.com/gauravgn90/NodeJsSimpleApp.git'
+                sh 'docker info'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Login') {
             steps {
-                script {
-                    def app = docker.build("${DOCKER_IMAGE}", "-f Dockerfile .")
-                }
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push') {
             steps {
-                script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", "docker-registry-credentials") {
-                        docker.image("${DOCKER_IMAGE}").push()
-                    }
-                }
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    def app = docker.image("${DOCKER_IMAGE}").withRun("-p ${EXPOSED_PORT}:${DOCKER_PORT}")
-                }
+                sh 'docker info'
             }
         }
     }
+    
+    post {
+        always {
+            sh 'echo "post always will be executed"'
+        }
+        
+        success {
+            sh 'echo "Build successful!"'
+        }
+        
+        failure {
+            sh 'echo "Build failed :("'
+        }
+    }
+
 }
