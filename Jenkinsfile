@@ -9,7 +9,22 @@ pipeline {
     }
 
     stages {
-         stage('Login') {
+
+        // stop docker container
+        stage('Stop') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh '''
+                echo "stopping container"
+                docker stop nodejs-app
+                docker rm nodejs-app
+                '''
+            }
+        }
+
+        stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
             }
@@ -41,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                 echo "deploying from master branch"
-                docker run -d -p 3000:3000 -v $(pwd):/usr/src/app gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
+                docker run -d -p 3000:3000 --name nodejs-app -v $(pwd):/usr/src/app gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
                 '''
             }
         }
