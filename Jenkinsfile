@@ -38,7 +38,10 @@ pipeline {
     
     post {
         always {
-            sh 'echo "post always will be executed"'
+            sh '''
+            docker logout
+            echo "post always will be executed"
+            '''
         }
         
         success {
