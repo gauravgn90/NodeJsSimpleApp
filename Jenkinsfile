@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker info'
+                sh 'docker --version'
             }
         }
 
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Push') {
             steps {
-                sh 'docker info'
+                sh 'docker --version'
             }
         }
     }
