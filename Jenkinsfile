@@ -28,6 +28,19 @@ pipeline {
 
     stages {
 
+        // selected parameters
+        stage('Selected Parameter') {
+            steps {
+                script {
+                    if (params.DEPLOY_TYPE == 'branch') {
+                        echo "Deploying branch: ${params.BRANCH_NAME}"
+                    } else {
+                        echo "Deploying tag: ${params.TAG_NAME}"
+                    }
+                }
+            }
+        }
+
         // stop docker container
         stage('Stop') {
             when {
