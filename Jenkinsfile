@@ -8,6 +8,24 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_with_token')
     }
 
+    parameters {
+        choice(
+            choices: ['branch', 'tag'],
+            description: 'Choose whether to deploy a branch or tag',
+            name: 'DEPLOY_TYPE'
+        )
+        string(
+            defaultValue: 'master',
+            description: 'Enter the branch name to deploy',
+            name: 'BRANCH_NAME'
+        )
+        string(
+            defaultValue: '',
+            description: 'Enter the tag name to deploy',
+            name: 'TAG_NAME'
+        )
+    }
+
     stages {
 
         // stop docker container
