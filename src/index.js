@@ -28,7 +28,8 @@ app.use('/users', routes.user);
 app.use('/messages', routes.message);
 app.use('/', routes.user);
 app.use('/test', function(req, res) {
-  res.send('Hello World!');
+ // send json resopnse
+  res.json({ message: 'Hello World!' });
 });
 
 
