@@ -103,8 +103,10 @@ pipeline {
 
         stage('Create Build File') {
             steps {
-                def commitID = readFile('commit_id.txt').trim()
-                sh 'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, Commit Id :${commitID} " > build.txt'
+                sh '''
+                    def commitID = readFile('commit_id.txt').trim()
+                    'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, Commit Id :${commitID} " > build.txt'
+                '''
                 archiveArtifacts 'build.txt'
             }
         }
