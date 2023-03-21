@@ -27,10 +27,7 @@ app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 app.use('/', routes.user);
-app.use('/test', function(req, res) {
- // send json resopnse
-  res.json({ message: 'Hello World!' });
-});
+app.use('/test', routes.ttest);
 
 
 // * Start * //
