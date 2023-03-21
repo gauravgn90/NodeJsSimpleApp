@@ -93,7 +93,7 @@ pipeline {
          stage('Deploy') {
             steps {
                 sh '''
-                echo "deploying from master branch"
+                echo "deploying from ${params.BRANCH_NAME} branch"
                 docker run -d -p 3000:3000 --name nodejs-app -v nodejs_app:/usr/src/app gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
                 '''
             }
