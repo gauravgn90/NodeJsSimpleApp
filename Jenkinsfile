@@ -91,6 +91,13 @@ pipeline {
                 '''
             }
         }
+
+        stage('Create Build File') {
+            steps {
+                sh 'echo "${BUILD_NUMBER}: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}" > build.txt'
+                archiveArtifacts 'build.txt'
+            }
+        }
     }
     
     post {
@@ -107,7 +114,7 @@ pipeline {
         
         failure {
             sh 'echo "Build failed :("'
-        }
+        }     
     }
 
 }
