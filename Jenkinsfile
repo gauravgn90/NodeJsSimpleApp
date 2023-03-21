@@ -15,7 +15,7 @@ pipeline {
             name: 'DEPLOY_TYPE'
         )
         string(
-            defaultValue: 'master',
+            defaultValue: 'develop',
             description: 'Enter the branch name to deploy',
             name: 'BRANCH_NAME'
         )
@@ -41,11 +41,21 @@ pipeline {
             }
         }
 
+        // git checkout selected branch
+        stage('Checkout') {
+            steps {
+                script {
+                    if (params.DEPLOY_TYPE == 'branch') {
+                        checkout([$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/gauravgn90/NodeJsSimpleApp.git']]])
+                    } else {
+                        checkout([$class: 'GitSCM', branches: [[name: "*/${params.TAG_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/gauravgn90/NodeJsSimpleApp.git']]])
+                    }
+                }
+            }
+        }
+
         // stop docker container
         stage('Stop') {
-            when {
-                branch 'master'
-            }
             steps {
                 sh '''
                 echo "stopping container"
