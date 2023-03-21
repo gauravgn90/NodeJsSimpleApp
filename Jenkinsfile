@@ -91,9 +91,6 @@ pipeline {
         }
 
          stage('Deploy') {
-            when {
-                branch 'master'
-            }
             steps {
                 sh '''
                 echo "deploying from master branch"
