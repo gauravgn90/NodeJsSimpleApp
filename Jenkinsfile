@@ -50,6 +50,8 @@ pipeline {
                     } else {
                         checkout([$class: 'GitSCM', branches: [[name: "*/${params.TAG_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/gauravgn90/NodeJsSimpleApp.git']]])
                     }
+
+                    sh 'git rev-parse HEAD > commit_id.txt'
                 }
             }
         }
@@ -91,12 +93,9 @@ pipeline {
         }
 
          stage('Deploy') {
-            when {
-                branch 'master'
-            }
             steps {
                 sh '''
-                echo "deploying from master branch"
+                echo 'deploying from ${params.BRANCH_NAME} branch'
                 docker run -d -p 3000:3000 --name nodejs-app -v nodejs_app:/usr/src/app gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
                 '''
             }
@@ -104,7 +103,8 @@ pipeline {
 
         stage('Create Build File') {
             steps {
-                sh 'echo "${BUILD_NUMBER}: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}" > build.txt'
+                def commitID = readFile('commit_id.txt').trim()
+                sh 'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, Commit Id :${commitID} " > build.txt'
                 archiveArtifacts 'build.txt'
             }
         }
