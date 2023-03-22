@@ -105,7 +105,6 @@ pipeline {
                 echo "Commit ID: \${GIT_COMMIT}" > build_info.txt
                 echo "Build Number: \${BUILD_NUMBER}" >> build_info.txt
                 """
-
                 archiveArtifacts 'build_info.txt'
             }
         }
