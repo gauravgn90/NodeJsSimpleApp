@@ -101,7 +101,9 @@ pipeline {
 
         stage('Create Build File') {
             steps {
-                sh  'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, CommitId : ${git rev-parse HEAD}" > build.txt'
+                sh  '''
+                echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, CommitId : ${git rev-parse HEAD}' > build.txt"
+                '''
                 archiveArtifacts 'build.txt'
             }
         }
