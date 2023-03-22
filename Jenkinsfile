@@ -93,7 +93,7 @@ pipeline {
          stage('Deploy') {
             steps {
                 sh '''
-                echo 'deploying from ${params.BRANCH_NAME} branch'
+                echo deploying from ${params.BRANCH_NAME} branch
                 docker run -d -p 3000:3000 --name nodejs-app -v nodejs_app:/usr/src/app gauravgn90/nodejs-simple-app:${BUILD_NUMBER}
                 '''
             }
@@ -101,7 +101,9 @@ pipeline {
 
         stage('Create Build File') {
             steps {
-                sh  'echo Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, CommitId : ${git rev-parse HEAD} > build.txt'
+                sh  '''
+                echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, CommitId : ${git rev-parse HEAD}" > build.txt
+                '''
                 archiveArtifacts 'build.txt'
             }
         }
