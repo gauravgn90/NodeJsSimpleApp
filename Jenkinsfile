@@ -98,13 +98,15 @@ pipeline {
                 '''
             }
         }
-
-        stage('Create Build File') {
+        
+        stage('Create Build Text File') {
             steps {
-                sh  '''
-                echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, CommitId : ${git rev-parse HEAD}" > build.txt
-                '''
-                archiveArtifacts 'build.txt'
+                sh """
+                echo "Commit ID: \${GIT_COMMIT}" > build_info.txt
+                echo "Build Number: \${BUILD_NUMBER}" >> build_info.txt
+                """
+
+                archiveArtifacts 'build_info.txt'
             }
         }
     }
