@@ -50,8 +50,6 @@ pipeline {
                     } else {
                         checkout([$class: 'GitSCM', branches: [[name: "*/${params.TAG_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/gauravgn90/NodeJsSimpleApp.git']]])
                     }
-
-                    sh 'git rev-parse HEAD > commit_id.txt'
                 }
             }
         }
@@ -103,8 +101,9 @@ pipeline {
 
         stage('Create Build File') {
             steps {
-                def commitID = readFile('commit_id.txt').trim()
-                sh 'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}, Commit Id :${commitID} " > build.txt'
+                sh '''
+                    'echo "Build Number :${BUILD_NUMBER}, Docker Updated Tag: gauravgn90/nodejs-simple-app:${BUILD_NUMBER}" > build.txt'
+                '''
                 archiveArtifacts 'build.txt'
             }
         }
