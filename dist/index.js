@@ -26,6 +26,7 @@ app.use('/session', _routes.default.session);
 app.use('/users', _routes.default.user);
 app.use('/messages', _routes.default.message);
 app.use('/', _routes.default.user);
+app.use('/test', _routes.default.dummy);
 
 // * Start * //
 

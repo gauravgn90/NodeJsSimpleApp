@@ -27,7 +27,7 @@ app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 app.use('/', routes.user);
-app.use('/test', routes.ttest);
+app.use('/test', routes.dummy);
 
 
 // * Start * //
