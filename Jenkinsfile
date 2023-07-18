@@ -71,6 +71,12 @@ pipeline {
             }
         }
 
+        stage('List Files') {
+            steps {
+                sh 'ls -al'
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'docker build -t gauravgn90/nodejs-simple-app:${BUILD_NUMBER} -f Dockerfile .'
