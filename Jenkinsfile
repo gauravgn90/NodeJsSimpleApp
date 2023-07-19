@@ -11,17 +11,17 @@ pipeline {
     parameters {
         choice(
             choices: ['branch', 'tag'],
-            description: 'Choose whether to deploy a branch or tag',
+            description: 'Choose whether to deploy a branch or tag.',
             name: 'DEPLOY_TYPE'
         )
         string(
             defaultValue: 'master',
-            description: 'Enter the branch name to deploy',
+            description: 'Enter the branch name to deploy.',
             name: 'BRANCH_NAME'
         )
         string(
             defaultValue: '',
-            description: 'Enter the tag name to deploy',
+            description: 'Enter the tag name to deploy.',
             name: 'TAG_NAME'
         )
     }
