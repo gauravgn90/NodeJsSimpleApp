@@ -15,7 +15,7 @@ pipeline {
             name: 'DEPLOY_TYPE'
         )
         string(
-            defaultValue: 'develop',
+            defaultValue: 'master',
             description: 'Enter the branch name to deploy',
             name: 'BRANCH_NAME'
         )
@@ -96,7 +96,7 @@ pipeline {
             }
         }
 
-         stage('Deploy') {
+        stage('Deploy') {
             steps {
                 sh '''
                 echo 'deploying from ${params.BRANCH_NAME} branch'
